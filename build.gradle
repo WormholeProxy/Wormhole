@@ -1,0 +1,42 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group = 'fun.wiley'
+version = '0.0.1'
+
+repositories {
+    mavenCentral()
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src/main/java'] // Follow standard Java project structure
+        }
+    }
+    test {
+        java {
+            srcDirs = ['src/test/java'] // Optional: if you have tests
+        }
+    }
+}
+
+application {
+    mainClass = 'fun.wiley.wormhole.Wormhole'
+}
+
+dependencies {
+    implementation 'com.esotericsoftware.yamlbeans:yamlbeans:1.17'
+    implementation 'com.esotericsoftware:jsonbeans:0.7'
+    implementation 'io.netty:netty-all:4.1.111.Final'
+    implementation 'org.slf4j:slf4j-api:2.0.12'
+    implementation 'ch.qos.logback:logback-classic:1.5.6'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0'
+}
+
+test {
+    useJUnitPlatform()
+}
