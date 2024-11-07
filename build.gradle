@@ -1,6 +1,6 @@
 plugins {
+    id 'com.gradleup.shadow' version '8.3.5'
     id 'java'
-    id 'application'
 }
 
 group = 'fun.wiley'
@@ -8,23 +8,9 @@ version = '0.0.1'
 
 repositories {
     mavenCentral()
-}
-
-sourceSets {
-    main {
-        java {
-            srcDirs = ['src/main/java'] // Follow standard Java project structure
-        }
-    }
-    test {
-        java {
-            srcDirs = ['src/test/java'] // Optional: if you have tests
-        }
-    }
-}
-
-application {
-    mainClass = 'fun.wiley.wormhole.Wormhole'
+    maven { url 'https://jitpack.io' }
+    maven { url "https://maven.google.com/" }
+    maven { url "https://libraries.minecraft.net" }
 }
 
 dependencies {
@@ -35,6 +21,30 @@ dependencies {
     implementation 'ch.qos.logback:logback-classic:1.5.6'
 
     testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0'
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs "src/main/java"
+        }
+        resources {
+            srcDirs "src/main/resources"
+        }
+    }
+
+}
+
+jar {
+    manifest {
+        attributes("Implementation-Title": project.name,
+                "Implementation-Version": version,
+                "Main-Class": "fun.wiley.wormhole.Wormhole")
+    }
+}
+
+processResources() {
+    duplicatesStrategy = 'EXCLUDE'
 }
 
 test {
