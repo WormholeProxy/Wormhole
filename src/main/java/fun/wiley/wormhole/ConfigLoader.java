@@ -69,7 +69,7 @@ public class ConfigLoader {
         public Config() {
             hostPort = 47137;
             servers = new HashMap<>();
-            servers.put("default", new ServerInfo("localhost", 47138));
+            servers.put("lobby", new ServerInfo("localhost", 47138));
         }
 
         // Getters and setters

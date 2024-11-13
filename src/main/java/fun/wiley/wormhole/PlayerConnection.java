@@ -36,6 +36,10 @@ public class PlayerConnection {
         return currentServer;
     }
 
+    public void connectToLobby() {
+        connectToServer((String) Wormhole.servers.keySet().toArray()[0]);
+    }
+
     public void connectToServer(String serverName) {
         if (clientChannel == null) {
             return;
@@ -51,6 +55,7 @@ public class PlayerConnection {
                 .channel(clientChannel.getClass())
                 .handler(new ProxyBackendInitializer(clientChannel))
                 .option(ChannelOption.AUTO_READ, false);
+        Wormhole.LOGGER.info("Client {} connecting to server: {}", clientChannel.remoteAddress(), server);
         ChannelFuture f = b.connect(server.getAddress(), server.getPort());
 
         f.addListener((ChannelFutureListener) future -> {
@@ -160,6 +165,10 @@ public class PlayerConnection {
             }
 
             boolean sendPacket = true;
+
+            if (packet instanceof CommandPacket) {
+                sendPacket = !handleProxyCommand((CommandPacket) packet);
+            }
 
             if (packet instanceof PlayerPacket playerPacket) {
                 if (lastPosition != null) {

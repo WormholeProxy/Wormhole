@@ -15,7 +15,7 @@ public class ProxyFrontendHandler extends ChannelInboundHandlerAdapter {
         PlayerConnection playerConnection = new PlayerConnection(inboundChannel);
         Wormhole.connections.put(inboundChannel.id(), playerConnection);
 
-        playerConnection.connectToServer("lobby");
+        playerConnection.connectToLobby();
     }
 
     @Override
