@@ -13,7 +13,7 @@ public abstract class Packet {
 
     // Factory method to create a Packet based on the packet ID
     public static Packet createPacket(short packetId) {
-        if (packetId > 35 || packetId <= 0) {
+        if (packetId > 37 || packetId <= 0) {
             throw new IllegalArgumentException("Invalid packetId: " + packetId);
         }
         return switch (packetId) {
@@ -31,7 +31,7 @@ public abstract class Packet {
             case 16 -> new CommandPacket();
             case 17 -> new DisconnectPacket();
             case 18 -> new PlaceBlockPacket();
-            case 32 -> new DespawnEntityPacket();
+            case 33 -> new DespawnEntityPacket();
             default -> new UnprocessedPacket(packetId);
         };
     }

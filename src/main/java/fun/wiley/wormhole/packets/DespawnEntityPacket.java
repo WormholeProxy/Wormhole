@@ -10,7 +10,7 @@ public class DespawnEntityPacket extends Packet {
 
     @Override
     public short getId() {
-        return 32;
+        return 33;
     }
 
     @Override
