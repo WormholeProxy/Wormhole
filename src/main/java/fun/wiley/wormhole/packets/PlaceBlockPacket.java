@@ -4,13 +4,11 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 
 public class PlaceBlockPacket extends Packet {
+    public static final short ID = 19;
+
     String zoneString;
     int blockPosX, blockPosY, blockPosZ;
     String targetBlockStateString;
-    @Override
-    public short getId() {
-        return 18;
-    }
 
     @Override
     public ByteBuf encode() {

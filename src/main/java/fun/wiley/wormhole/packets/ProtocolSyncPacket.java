@@ -6,6 +6,7 @@ import io.netty.buffer.Unpooled;
 import java.util.ArrayList;
 
 public class ProtocolSyncPacket extends Packet {
+    public static final short ID = 1;
 
     static class SubPacket {
         public SubPacket(String packetName, int packetId) {
@@ -17,13 +18,12 @@ public class ProtocolSyncPacket extends Packet {
         int packetId;
     }
 
+    public String getGameVersion() {
+        return gameVersion;
+    }
+
     String gameVersion;
     ArrayList<SubPacket> subPackets = new ArrayList<>();
-
-    @Override
-    public short getId() {
-        return 1;
-    }
 
     @Override
     public ByteBuf encode() {

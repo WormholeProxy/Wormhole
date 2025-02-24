@@ -4,6 +4,8 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 
 public class MessagePacket extends Packet {
+    public static final short ID = 11;
+
     public String playerUniqueId;
     public String message;
 
@@ -17,11 +19,6 @@ public class MessagePacket extends Packet {
     public MessagePacket(String message) {
         this.playerUniqueId = "";
         this.message = message;
-    }
-
-    @Override
-    public short getId() {
-        return 11;
     }
 
     @Override

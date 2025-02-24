@@ -4,12 +4,9 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 
 public class ChallengeLoginPacket extends Packet {
-    String challenge;
+    public static final short ID = 8;
 
-    @Override
-    public short getId() {
-        return 8;
-    }
+    String challenge;
 
     @Override
     public ByteBuf encode() {

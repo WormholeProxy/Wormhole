@@ -4,15 +4,12 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 
 public class PlayerPacket extends Packet {
+    public static final short ID = 10;
+
     String accountPrefix;
     String accountString;
     String playerString;
     boolean justJoined;
-
-    @Override
-    public short getId() {
-        return 10;
-    }
 
     @Override
     public ByteBuf encode() {

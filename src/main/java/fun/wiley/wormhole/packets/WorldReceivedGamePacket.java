@@ -4,11 +4,7 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 
 public class WorldReceivedGamePacket extends Packet {
-
-    @Override
-    public short getId() {
-        return 6;
-    }
+    public static final short ID = 6;
 
     @Override
     public ByteBuf encode() {

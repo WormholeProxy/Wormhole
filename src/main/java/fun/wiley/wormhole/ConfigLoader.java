@@ -63,16 +63,26 @@ public class ConfigLoader {
     }
 
     public static class Config {
+        private String[] allowedVersions;
         private int hostPort;
         private Map<String, ServerInfo> servers;
 
         public Config() {
+            allowedVersions = new String[]{"0.3.14"};
             hostPort = 47137;
             servers = new HashMap<>();
             servers.put("lobby", new ServerInfo("localhost", 47138));
         }
 
         // Getters and setters
+        public String[] getAllowedVersions() {
+            return allowedVersions;
+        }
+
+        public void setAllowedVersions(String[] allowedVersions) {
+            this.allowedVersions = allowedVersions;
+        }
+
         public Map<String, ServerInfo> getServers() {
             return servers;
         }

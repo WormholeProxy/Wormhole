@@ -2,38 +2,70 @@ package fun.wiley.wormhole.packets;
 
 import io.netty.buffer.ByteBuf;
 
+import java.lang.reflect.Field;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
 
 public abstract class Packet {
-    public abstract short getId();
-
-    // Abstract method to decode packet-specific data
     public abstract ByteBuf encode();
     public abstract void decode(ByteBuf in, int packetSize);
 
-    // Factory method to create a Packet based on the packet ID
-    public static Packet createPacket(short packetId) {
-        if (packetId > 37 || packetId <= 0) {
-            throw new IllegalArgumentException("Invalid packetId: " + packetId);
+    private static final Map<Short, Class<? extends Packet>> packetRegistry = new HashMap<>();
+
+    static {
+        registerPacket(ProtocolSyncPacket.class);
+        registerPacket(LoginPacket.class);
+        registerPacket(EndTickPacket.class);
+        registerPacket(WorldReceivedGamePacket.class);
+        registerPacket(SetNetworkSettingPacket.class);
+        registerPacket(ChallengeLoginPacket.class);
+        registerPacket(PlayerPacket.class);
+        registerPacket(MessagePacket.class);
+        registerPacket(PlayerPositionPacket.class);
+        registerPacket(ZonePacket.class);
+        registerPacket(ChunkColumnPacket.class);
+        registerPacket(CommandPacket.class);
+        registerPacket(DisconnectPacket.class);
+        registerPacket(PlaceBlockPacket.class);
+        registerPacket(DespawnEntityPacket.class);
+    }
+
+    public short getId() {
+        try {
+            Field idField = this.getClass().getField("ID");
+            return idField.getShort(null);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to retrieve ID for class: " + this.getClass().getName(), e);
         }
-        return switch (packetId) {
-            case 1 -> new ProtocolSyncPacket();
-            case 3 -> new LoginPacket();
-            case 5 -> new EndTickPacket();
-            case 6 -> new WorldReceivedGamePacket();
-            case 7 -> new SetNetworkSettingPacket();
-            case 8 -> new ChallengeLoginPacket();
-            case 10 -> new PlayerPacket();
-            case 11 -> new MessagePacket();
-            case 12 -> new PlayerPositionPacket();
-            case 14 -> new ZonePacket();
-            case 15 -> new ChunkColumnPacket();
-            case 16 -> new CommandPacket();
-            case 17 -> new DisconnectPacket();
-            case 18 -> new PlaceBlockPacket();
-            case 33 -> new DespawnEntityPacket();
-            default -> new UnprocessedPacket(packetId);
-        };
+    }
+
+    private static void registerPacket(Class<? extends Packet> packetClass) {
+        try {
+            // Retrieve the static field "ID" from the packet class
+            short id = (short) packetClass.getField("ID").get(null);
+            packetRegistry.put(id, packetClass);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to register packet: " + packetClass.getName(), e);
+        }
+    }
+
+    /**
+     * Factory method to create a Packet instance based on the packet ID.
+     * If the ID is not found in the registry, returns an UnprocessedPacket.
+     */
+    public static Packet createPacket(short packetId) {
+        Class<? extends Packet> packetClass = packetRegistry.get(packetId);
+        if (packetClass != null) {
+            try {
+                // Instantiate the packet using its no-arg constructor
+                return packetClass.getDeclaredConstructor().newInstance();
+            } catch (Exception e) {
+                throw new RuntimeException("Failed to instantiate packet for ID: " + packetId, e);
+            }
+        }
+        // Fallback: if not found, return an UnprocessedPacket
+        return new UnprocessedPacket(packetId);
     }
 
     protected String readString(ByteBuf in) {
@@ -58,4 +90,3 @@ public abstract class Packet {
         }
     }
 }
-

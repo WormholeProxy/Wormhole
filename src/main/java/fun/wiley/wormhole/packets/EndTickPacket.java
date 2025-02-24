@@ -4,12 +4,9 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 
 public class EndTickPacket extends Packet {
-    long worldTick;
+    public static final short ID = 5;
 
-    @Override
-    public short getId() {
-        return 5;
-    }
+    long worldTick;
 
     @Override
     public ByteBuf encode() {

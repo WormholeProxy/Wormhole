@@ -6,12 +6,9 @@ import io.netty.buffer.Unpooled;
 import java.util.Arrays;
 
 public class CommandPacket extends Packet {
-    String[] commandArgs;
+    public static final short ID = 17;
 
-    @Override
-    public short getId() {
-        return 16;
-    }
+    String[] commandArgs;
 
     @Override
     public ByteBuf encode() {

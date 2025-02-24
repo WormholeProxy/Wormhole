@@ -4,14 +4,11 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 
 public class DespawnEntityPacket extends Packet {
+    public static final short ID = 36;
+
     long time;
     int rand;
     int num;
-
-    @Override
-    public short getId() {
-        return 33;
-    }
 
     @Override
     public ByteBuf encode() {

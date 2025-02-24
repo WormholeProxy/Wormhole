@@ -4,13 +4,10 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 
 public class LoginPacket extends Packet {
+    public static final short ID = 3;
+
     String accountPrefixString;
     String accountString;
-
-    @Override
-    public short getId() {
-        return 3;
-    }
 
     @Override
     public ByteBuf encode() {

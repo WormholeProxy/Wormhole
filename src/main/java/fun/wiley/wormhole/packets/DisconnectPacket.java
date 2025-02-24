@@ -4,12 +4,9 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 
 public class DisconnectPacket extends Packet {
-    String reason;
+    public static final short ID = 18;
 
-    @Override
-    public short getId() {
-        return 17;
-    }
+    String reason;
 
     @Override
     public ByteBuf encode() {

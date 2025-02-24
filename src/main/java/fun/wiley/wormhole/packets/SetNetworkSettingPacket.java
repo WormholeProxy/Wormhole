@@ -7,17 +7,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SetNetworkSettingPacket extends Packet {
+    public static final short ID = 7;
 
     private static final Map<Integer, NetworkSettingType> SETTING_TYPES = new HashMap<>();
 
     String key;
     NetworkSettingType type;
     int intValue;
-
-    @Override
-    public short getId() {
-        return 7;
-    }
 
     @Override
     public ByteBuf encode() {

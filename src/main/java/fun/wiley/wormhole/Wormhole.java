@@ -19,12 +19,16 @@ public class Wormhole {
 
     public static final Logger LOGGER = LoggerFactory.getLogger("Wormhole");
 
+    private static ConfigLoader.Config config;
+
     public static void main(String[] args) throws Exception {
         ConfigLoader conf = new ConfigLoader();
         conf.load();
 
-        int port = conf.getConfig().getHostPort();
-        servers = conf.getConfig().getServers();
+        config = conf.getConfig();
+
+        int port = config.getHostPort();
+        servers = config.getServers();
 
         if (servers.isEmpty()) {
             LOGGER.warn("No servers configured, shutting down");
@@ -45,6 +49,10 @@ public class Wormhole {
             bossGroup.shutdownGracefully();
             workerGroup.shutdownGracefully();
         }
+    }
+
+    public static ConfigLoader.Config getConfig() {
+        return config;
     }
 
     /**

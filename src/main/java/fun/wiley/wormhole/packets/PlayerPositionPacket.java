@@ -4,6 +4,8 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 
 public class PlayerPositionPacket extends Packet {
+    public static final short ID = 12;
+
     public String playerUniqueId;
     public String zoneId;
     public float positionX, positionY, positionZ;
@@ -24,11 +26,6 @@ public class PlayerPositionPacket extends Packet {
         viewDirOffX = packet.viewDirOffX;
         viewDirOffY = packet.viewDirOffY;
         viewDirOffZ = packet.viewDirOffZ;
-    }
-
-    @Override
-    public short getId() {
-        return 12;
     }
 
     @Override

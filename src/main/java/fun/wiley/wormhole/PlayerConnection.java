@@ -117,6 +117,27 @@ public class PlayerConnection {
         try {
             boolean sendPacket = true;
 
+            if (packet instanceof ProtocolSyncPacket protocolSyncPacket) {
+                String clientVersion = protocolSyncPacket.getGameVersion();
+
+                String[] versions = Wormhole.getConfig().getAllowedVersions();
+
+                boolean validVersion = false;
+                for (String version : versions) {
+                    if (version.equals(clientVersion)) {
+                        validVersion = true;
+                        break;
+                    }
+                }
+
+                if (!validVersion) {
+                    Wormhole.LOGGER.warn("Client attempting to join with invalid game version ({})", clientVersion);
+                    clientChannel.close();
+                    serverChannel.close();
+                    return;
+                }
+            }
+
             if (packet instanceof PlayerPositionPacket positionPacket) {
                 if (loaded) {
                     lastPosition = positionPacket;
